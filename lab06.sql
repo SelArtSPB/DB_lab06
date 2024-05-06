@@ -45,8 +45,8 @@ INSERT INTO exam (id, discip, ts) SELECT nextval('exam_id'), currval('discip_id'
 TIMESTAMP '2021-09-01 00:00:00' + random() * (TIMESTAMP '2022-07-01 00:00:00' - TIMESTAMP '2022-09-01 00:00:00') 
 FROM generate_series(1, 20);
 
-CREATE EXTENSION file_fdw;
-CREATE SERVER file_server FOREIGN DATA WRAPPER file_fdw;
+CREATE EXTENSION if not exists file_fdw;
+CREATE SERVER if not exists file_server FOREIGN DATA WRAPPER file_fdw;
 
 
 CREATE FOREIGN TABLE if not exists firstfemalename(femname varchar) SERVER file_server 
@@ -188,7 +188,6 @@ FROM final_marks_mat fmm
 JOIN discipline d ON fmm.discip = d.id;
 
 EXPLAIN ANALYZE VERBOSE SELECT * FROM stud_marks WHERE stud = '3';
-
 EXPLAIN ANALYZE VERBOSE SELECT * FROM stud_marks_alt WHERE stud = '3';
 
 CREATE VIEW avg_marks AS
